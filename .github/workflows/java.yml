@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      MONGO_DB_URI: ${{ secrets.MONGO_DB_URI }}
+      MONGO_DB_DATABASE: ${{ secrets.MONGO_DB_DATABASE }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
