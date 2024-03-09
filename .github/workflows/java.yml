@@ -1,6 +1,5 @@
 name: Java CI
 
-
 on:
   push:
     branches:
@@ -27,5 +26,5 @@ jobs:
           cache: 'maven'
 
       - name: Build and test with Maven
-        working-directory: ./product-service
+        working-directory: ${{ github.workspace }}/product-service
         run: mvn -B clean install
