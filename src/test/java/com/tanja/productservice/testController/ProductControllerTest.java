@@ -1,18 +1,12 @@
 package com.tanja.productservice.testController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tanja.productservice.controller.ProductController;
 import com.tanja.productservice.dto.ProductRequest;
-import com.tanja.productservice.dto.ProductResponse;
 import com.tanja.productservice.model.Product;
 import com.tanja.productservice.repository.ProductRepository;
-import com.tanja.productservice.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -79,7 +67,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void testGetAllUsers() throws Exception {
+    void testGetAllProducts() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/product")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -114,7 +102,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void testDeleteUser() throws Exception {
+    void testDeleteProduct() throws Exception {
         ProductRequest productRequest = getProductRequest();
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
@@ -160,8 +148,8 @@ public class ProductControllerTest {
     private ProductRequest getProductRequest() {
         return ProductRequest.builder()
                 .name("Apple")
-                .productionCompany("Doe")
-                .description("johndoe@example.com")
+                .productionCompany("Apple")
+                .description("phone")
                 .price(BigDecimal.TEN)
                 .build();
     }
