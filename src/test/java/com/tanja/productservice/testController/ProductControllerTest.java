@@ -49,7 +49,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    void testGetUserById() throws Exception {
+    void testGetProductById() throws Exception {
         ProductRequest productRequest = getProductRequest();
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
