@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanja.productservice.dto.ProductRequest;
 import com.tanja.productservice.model.Product;
 import com.tanja.productservice.repository.ProductRepository;
-import com.tanja.productservice.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -88,7 +85,7 @@ public class ProductControllerTest {
                 .andExpect(status().isOk());
 
         Product updatedProduct = productRepository.findById(createdProduct.getId()).orElse(null);
-        assertNotNull(updatedProduct);
+        Assertions.assertNotNull(updatedProduct);
         Assertions.assertEquals("UpdatedName", updatedProduct.getName());
     }
 
