@@ -23,18 +23,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProductControllerTest {
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     ProductRepository productRepository;
 
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
+        objectMapper = new ObjectMapper();
         productRepository.deleteAll();
+        if (objectMapper == null) {
+            System.out.println("objectMapper is null in setUp() method!");
+        } else {
+            System.out.println("objectMapper is not null in setUp() method!");
+        }
     }
+
 
     @Test
     public void testCreateProduct() throws Exception {
@@ -140,7 +146,7 @@ public class ProductControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/product"))
                 .andExpect(status().isOk());
 
-        // Ensure all products are deleted
+
         Assertions.assertEquals(0, productRepository.findAll().size());
     }
 
