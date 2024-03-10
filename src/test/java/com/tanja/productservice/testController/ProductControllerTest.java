@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanja.productservice.dto.ProductRequest;
 import com.tanja.productservice.model.Product;
 import com.tanja.productservice.repository.ProductRepository;
+import com.tanja.productservice.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,19 +29,15 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     ProductRepository productRepository;
 
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
-        objectMapper = new ObjectMapper();
         productRepository.deleteAll();
-        if (objectMapper == null) {
-            System.out.println("objectMapper is null in setUp() method!");
-        } else {
-            System.out.println("objectMapper is not null in setUp() method!");
-        }
     }
 
 
