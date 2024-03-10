@@ -14,13 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProductControllerTest {
+public class ProductControllerTests {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductControllerTests.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,14 +34,27 @@ public class ProductControllerTest {
     @Autowired
     ProductRepository productRepository;
 
-
     @BeforeEach
     void setUp() {
         productRepository.deleteAll();
     }
 
     @Test
+    public void testCreateProduct() throws Exception {
+        ProductRequest productRequest = getProductRequest();
+        String productRequestString = objectMapper.writeValueAsString(productRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productRequestString))
+                .andExpect(status().isCreated());
+        Assertions.assertEquals(1, productRepository.findAll().size());
+    }
+
+    @Test
     void testGetProductById() throws Exception {
+        logger.debug("Starting testGetProductById...");
+
         ProductRequest productRequest = getProductRequest();
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
@@ -53,18 +69,22 @@ public class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(createdProduct.getId()));
+        logger.debug("Finished testGetProductById.");
     }
 
     @Test
     void testGetAllProducts() throws Exception {
+        logger.debug("Starting testGetAllProducts...");
         mockMvc.perform(MockMvcRequestBuilders.get("/api/product")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
+        logger.debug("Finished testGetAllProducts.");
     }
 
     @Test
     void testEditProduct() throws Exception {
+        logger.debug("Starting testEditProduct...");
         ProductRequest productRequest = getProductRequest();
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
@@ -87,10 +107,12 @@ public class ProductControllerTest {
         Product updatedProduct = productRepository.findById(createdProduct.getId()).orElse(null);
         Assertions.assertNotNull(updatedProduct);
         Assertions.assertEquals("UpdatedName", updatedProduct.getName());
+        logger.debug("Finished testEditProduct.");
     }
 
     @Test
     void testDeleteProduct() throws Exception {
+        logger.debug("Starting testDeleteProduct...");
         ProductRequest productRequest = getProductRequest();
         String productRequestString = objectMapper.writeValueAsString(productRequest);
 
@@ -105,11 +127,12 @@ public class ProductControllerTest {
                 .andExpect(status().isOk());
 
         Assertions.assertEquals(0, productRepository.findAll().size());
+        logger.debug("Finished testDeleteProduct.");
     }
 
     @Test
     void testDeleteAllProducts() throws Exception {
-
+        logger.debug("Starting testDeleteAllProducts...");
         ProductRequest productRequest1 = getProductRequest();
         ProductRequest productRequest2 = getProductRequest();
         String productRequestString1 = objectMapper.writeValueAsString(productRequest1);
@@ -130,6 +153,7 @@ public class ProductControllerTest {
 
 
         Assertions.assertEquals(0, productRepository.findAll().size());
+        logger.debug("Finished testDeleteAllProducts.");
     }
 
 
