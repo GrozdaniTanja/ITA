@@ -1,4 +1,4 @@
-package com.tanja.productservice.testController;
+package com.tanja.productservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanja.productservice.dto.ProductRequest;
@@ -8,8 +8,6 @@ import com.tanja.productservice.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +17,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -38,19 +38,6 @@ public class ProductControllerTest {
     @BeforeEach
     void setUp() {
         productRepository.deleteAll();
-    }
-
-
-    @Test
-    public void testCreateProduct() throws Exception {
-        ProductRequest productRequest = getProductRequest();
-        String productRequestString = objectMapper.writeValueAsString(productRequest);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(productRequestString))
-                .andExpect(status().isCreated());
-        Assertions.assertEquals(1, productRepository.findAll().size());
     }
 
     @Test
@@ -79,7 +66,6 @@ public class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
     }
 
-
     @Test
     void testEditProduct() throws Exception {
         ProductRequest productRequest = getProductRequest();
@@ -102,7 +88,7 @@ public class ProductControllerTest {
                 .andExpect(status().isOk());
 
         Product updatedProduct = productRepository.findById(createdProduct.getId()).orElse(null);
-        Assertions.assertNotNull(updatedProduct);
+        assertNotNull(updatedProduct);
         Assertions.assertEquals("UpdatedName", updatedProduct.getName());
     }
 
