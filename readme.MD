@@ -15,6 +15,7 @@ This project is a product service. One of microservice of OnlineMarketPlace proj
 ## Getting Started
 1. Clone the repository.
 2. Configure MongoDB Atlas in application.properties.
+3. Run app:
    - Option 1: Run with Maven
     ```./mvnw spring-boot:run  ```  
    - Option 2: Run with Docker Compose(Ensure Docker is installed on your system)
