@@ -1,8 +1,7 @@
 # Product Service
 
 ## Overview
-This project is a product service. One of microservice of OnlineMarketPlace project. It is built using Spring Boot and MongoDB Atlas and provides RESTful API endpoints for CRUD operations to manage products.
-
+The OnlineMarketPlace Product Service is a microservice within the OnlineMarketPlace project. Built using Spring Boot and MongoDB Atlas, it offers RESTful API endpoints to facilitate CRUD (Create, Read, Update, Delete) operations for managing products.
 ## Endpoints
 - POST /api/product: Create a new product.
 - GET /api/product: Retrieve all products.
