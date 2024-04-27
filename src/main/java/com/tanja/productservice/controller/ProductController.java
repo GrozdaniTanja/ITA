@@ -44,15 +44,6 @@ public class ProductController {
         LOGGER.info("Product with ID {} edited successfully", id);
     }
 
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteAllProducts() {
-        LOGGER.info("Deleting all products");
-        productService.deleteAllProducts();
-        LOGGER.info("All products deleted successfully");
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteProductById(@PathVariable String id) {

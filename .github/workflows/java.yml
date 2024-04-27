@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MONGO_DB_DATABASE: productDB
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       IMAGE_NAME: tanjag/ita-product-service
-      TAG: 3.0.0
+      TAG: 1.1.1
 
     services:
-       mongo_db:
-        image: mongo:7.0.6
+      mongodb:
+        image: mongo
         ports:
-            - "27017:27017"
+          - "27017:27017"
+
 
     steps:
       - name: Checkout repository
@@ -32,6 +32,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
+
+      - name: Set up environment variables
+        run: |
+          echo "MONGO_URI=mongodb://mongodb:27017/productDB" >> $GITHUB_ENV
+          echo "MONGO_DB=productDB" >> $GITHUB_ENV
 
       - name: Build and test with Maven
         run: mvn -B clean install

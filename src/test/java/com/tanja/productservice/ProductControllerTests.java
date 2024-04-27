@@ -40,18 +40,6 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void testCreateProduct() throws Exception {
-        ProductRequest productRequest = getProductRequest();
-        String productRequestString = objectMapper.writeValueAsString(productRequest);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(productRequestString))
-                .andExpect(status().isCreated());
-        Assertions.assertEquals(1, productRepository.findAll().size());
-    }
-
-    @Test
     void testGetProductById() throws Exception {
         logger.debug("Starting testGetProductById...");
 
@@ -80,6 +68,19 @@ public class ProductControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
         logger.debug("Finished testGetAllProducts.");
+    }
+
+
+    @Test
+    public void testCreateProduct() throws Exception {
+        ProductRequest productRequest = getProductRequest();
+        String productRequestString = objectMapper.writeValueAsString(productRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productRequestString))
+                .andExpect(status().isCreated());
+        Assertions.assertEquals(1, productRepository.findAll().size());
     }
 
     @Test
@@ -128,32 +129,6 @@ public class ProductControllerTests {
 
         Assertions.assertEquals(0, productRepository.findAll().size());
         logger.debug("Finished testDeleteProduct.");
-    }
-
-    @Test
-    void testDeleteAllProducts() throws Exception {
-        logger.debug("Starting testDeleteAllProducts...");
-        ProductRequest productRequest1 = getProductRequest();
-        ProductRequest productRequest2 = getProductRequest();
-        String productRequestString1 = objectMapper.writeValueAsString(productRequest1);
-        String productRequestString2 = objectMapper.writeValueAsString(productRequest2);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(productRequestString1))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(productRequestString2))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/product"))
-                .andExpect(status().isOk());
-
-
-        Assertions.assertEquals(0, productRepository.findAll().size());
-        logger.debug("Finished testDeleteAllProducts.");
     }
 
 

@@ -51,11 +51,6 @@ public class ProductService {
         }
     }
 
-    public void deleteAllProducts() {
-        productRepositiry.deleteAll();
-        LOGGER.debug("All products deleted");
-    }
-
     public void deleteProductById(String id) {
         productRepositiry.deleteById(id);
         LOGGER.debug("Product {} is deleted", id);
