@@ -16,6 +16,12 @@ jobs:
       IMAGE_NAME: tanjag/ita-product-service
       TAG: 3.0.0
 
+    services:
+       mongo_db:
+        image: mongo:7.0.6
+        ports:
+          - "27017:27017"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
