@@ -21,7 +21,6 @@ jobs:
         image: mongo
         ports:
           - "27017:27017"
-        options: --health-cmd "mongo --eval 'db.stats()'"
 
     steps:
       - name: Checkout repository
